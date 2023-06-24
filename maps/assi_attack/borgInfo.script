@@ -1,0 +1,146 @@
+//chrissstrahl - 2022.04.17 - hudinfo for borg queen
+
+void borgInfo_loadInfoForHud(entity ePlayer, entity eObject);
+void borgInfo_removeIfEntityGone(entity ePlayer, entity eObject);
+void borgInfo_targeting(entity ePlayer);
+void borgInfo_execCfg(entity ePlayer,string sCfg);
+void borgInfo_getHudInfo_drone();
+void borgInfo_getHudInfo_player();
+void borgInfo_getHudInfo_forcefield();
+void borgInfo_getHudInfo_powernode();
+void borgInfo_getHudInfo_distributionnode();
+void borgInfo_getHudInfo_plasmanode();
+void borgInfo_getHudInfo_patternenhancer();
+void borgInfo_getHudInfo_puzzleobject();
+
+void borgInfo_execCfg(entity ePlayer,string sCfg)
+{
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"exec maps/"+getcvar("mapname")+"/hud/"+sCfg+".cfg");
+}
+
+void borgInfo_loadInfoForHud(entity ePlayer, entity eObject)
+{
+	if(doesEntityExist(ePlayer) != 1 || doesEntityExist(eObject) != 1){ return; }
+	string sType;
+	sType = typeData_getTypeOf(eObject);
+	if(sType == ""){ return; }
+	
+	//run thread based on the typename, I know this is lazzy, but this makes it so good
+	ePlayer.runthread("borgInfo_getHudInfo_"+getStringToLower(sType));
+}
+
+void borgInfo_removeIfEntityGone(entity ePlayer, entity eObject)
+{
+	float fRun = 1;
+	while( fRun == 1 && doesEntityExist(ePlayer) == 1 && ePlayer.getHealth() > 0){
+		globalCoop_main_waitAFrame();
+		if(	doesEntityExist(eObject) == 0 || eObject.getSubclassName() == "Actor" && eObject.getHealth() <= 0){
+			fRun = 0;
+		}
+	}
+	if(doesEntityExist(ePlayer)){
+		ePlayer.removehud("coop_borgInfo");
+	}
+}
+
+void borgInfo_targeting(entity ePlayer)
+{
+	entity eTarget;
+	string sLastTarget;
+	string sCurrentTarget;
+	float fThreadNum;
+	while(doesEntityExist(ePlayer) == 1 && ePlayer.getHealth() > 0){
+		if(ePlayer.checkUse()){
+			ePlayer.hudprint("player was using\n");
+		}
+		if(ePlayer.checkThirdperson()){
+			ePlayer.hudprint("player in in third person\n");
+		}
+		if(ePlayer.checkFire()){
+			ePlayer.hudprint("player was fireing\n");
+		}
+		if(ePlayer.checkFirealt()){
+			ePlayer.hudprint("player was fireing alt\n");
+		}
+	
+	
+		eTarget = ePlayer.getTargetedEntity();
+		if(doesEntityExist(eTarget)){
+			sCurrentTarget = eTarget.getTargetname();
+		}else{
+			sCurrentTarget = "";
+		}
+		
+		if(sLastTarget != sCurrentTarget){
+			if(sCurrentTarget != "world" && sCurrentTarget != "$world"){
+				fThreadNum = ePlayer.getFloatVar("coopBorgInfoHudThread");
+				if(fThreadNum != 0){
+					terminate(fThreadNum);
+				}
+			
+				sLastTarget = sCurrentTarget;
+				ePlayer.removehud("coop_borgInfo");
+				wait(0.15);
+				fThreadNum = thread borgInfo_removeIfEntityGone(ePlayer,eTarget);
+				ePlayer.setFloatVar("coopBorgInfoHudThread",fThreadNum);
+				ePlayer.addhud("coop_borgInfo");	
+				borgInfo_loadInfoForHud(ePlayer,eTarget);			
+				ePlayer.hudprint(sCurrentTarget+" ObjectType: "+eTarget.getStringVar("uservar1")+" c:"+eTarget.getSubclassName()+" \n");
+			}
+		}
+		
+		globalCoop_main_waitAFrame();
+	}
+}
+
+void borgInfo_getHudInfo_drone()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	borgInfo_execCfg(ePlayer,"drone");
+}
+
+void borgInfo_getHudInfo_player()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	borgInfo_execCfg(ePlayer,"player");
+}
+
+void borgInfo_getHudInfo_forcefield()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	borgInfo_execCfg(ePlayer,"forcefield");
+}
+void borgInfo_getHudInfo_powernode()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	borgInfo_execCfg(ePlayer,"powernode");
+}
+void borgInfo_getHudInfo_distributionnode()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	borgInfo_execCfg(ePlayer,"distributionnode");
+}
+void borgInfo_getHudInfo_plasmanode()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	borgInfo_execCfg(ePlayer,"plasmanode");
+}
+void borgInfo_getHudInfo_patternenhancer()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	borgInfo_execCfg(ePlayer,"patternenhancer");
+}
+void borgInfo_getHudInfo_puzzleobject()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	borgInfo_execCfg(ePlayer,"puzzleobject");
+}

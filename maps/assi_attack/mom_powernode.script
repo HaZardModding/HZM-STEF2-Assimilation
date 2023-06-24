@@ -1,0 +1,140 @@
+//declaration
+////////////////////////////////////////////////////////////////////////////////
+void	powernodenoMenu();
+void	powernode();
+void	powernode_One();
+void	powernode_Two();
+void	powernode_Three();
+void	powernode_Four();
+void	powernode_Five();
+void	powernode_Six();
+void	powernode_Seven();
+void	powernode_Eight();
+void	powernode_Nine();
+void	powernode_Ten();
+void	powernode_Eleven();
+void	powernode_Twelve();
+void	powernode_Thirteen();
+void	powernode_Fourteen();
+void	powernode_Fifteen();
+void	powernode_Zero();
+
+void powernode()
+//this function is started once the trigger is used
+{
+	entity ePlayer;
+	entity eTrigger;
+
+	eTrigger = getCurrentEntity();
+	if(!doesEntityExist(eTrigger)){
+		print("ERROR: mom_returnPlayerForTrigger - trigger did not exist\n");
+		ePlayer = $Player;
+	}else{
+		ePlayer = mom_returnPlayerForTrigger(getCurrentEntity());
+	}
+	
+	if(!doesEntityExist(ePlayer)){ return; }
+
+}
+
+void powernodenoMenu()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_One()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Two()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Three()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Four()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Five()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Six()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Seven()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Eight()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Nine()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Ten()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Eleven()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Twelve()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Thirteen()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Fourteen()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Fifteen()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}
+
+void powernode_Zero()
+{
+	entity	ePlayer;
+	ePlayer	= mom_returnPlayerForTrigger(getCurrentEntity());
+}

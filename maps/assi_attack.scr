@@ -1,0 +1,97 @@
+void main();
+void setupLevel();
+void puzzleobjectSolvedthread();
+void usedStartThread();
+void itemUsedThread();
+void failedThread();
+void canceledThread();
+
+void assimilationSetup();
+
+/*
+Borg can spawn drones at alcoves
+If Borg kill a player they get 5 drones for free
+-Fed needs to gain control of powernode to take a room
+Fed needs to build pattern enhancers to resuply and respawn in this area
+Fed needs to shoutdown forcefiels to get into a room
+-Fed needs to destroy powernodes to prevent respawning of Borg in a area
+Fed and Borg need to select from a list of things they want to build/resarch
+Fed can beam in Defense Teams
+Fed can research i-mod and Borg can researchforcefields and regeneration of destroyed equipment
+*/
+
+#include "coop_mod/matrix/main.scr"
+#include "maps/assi_attack/typeData.script"
+#include "maps/assi_attack/borgInfo.script"
+#include "maps/assi_attack/forcefield.script"
+#include "maps/assi_attack/mom4_teamselection.script"
+#include "maps/assi_attack/mom4_datapad.script"
+#include "maps/assi_attack/mom_enhancer.script"
+#include "maps/assi_attack/mom_request.script"
+#include "maps/assi_attack/mom_powernode.script"
+
+//------------------------------------------------------------------------------
+//HZM Coop Mod - assimilation setup - starts the scripts
+//------------------------------------------------------------------------------
+// MAKE SURE YOU HAVE ALL THE REQUIRED FILES INCLUDED
+//
+void assimilationSetup()
+{
+	//setup coop features
+	$world.setFloatVar("globalCoop_disableBuildTransporter",1);//disable technican class teleporter build ability
+	
+	//setup standard scripts adjusted for this level
+	thread enhancer_setup();
+	thread forcefield_setup();
+}
+
+void main()
+{
+	//setup the level
+	thread setupLevel();
+   
+	//run assimilation related scripts
+	thread assimilationSetup();
+}
+
+void setupLevel()
+{
+//clear/set viewmodes
+	$world.clearAvailableViewModes();
+	$world.addAvailableViewMode("tripwire");
+	//$world.addAvailableViewMode("structuralintegrity");
+	
+    $powerNodePuzzle.puzzleobject_timeToUse(5);
+	
+	wait(2);
+	thread borgInfo_targeting($player0);
+}
+
+void puzzleobjectSolvedthread()
+{
+    $player.hudprint("puzzleobjectSolvedthread");
+}
+void usedStartThread()
+{
+    $player.hudprint("usedStartThread");
+}
+void itemUsedThread()
+{
+    $player.hudprint("itemUsedThread");
+}
+void failedThread()
+{
+    $player.hudprint("failedThread");
+}
+void canceledThread()
+{
+    $player.hudprint("canceledThread");
+}
+
+//------------------------------------------------------------------------------
+//HZM Coop Mod - levelend default coop function, loads next map on completion
+//------------------------------------------------------------------------------
+void coop_endLevel()
+{
+	thread globalCoop_mission_completed("assi_attack");
+}

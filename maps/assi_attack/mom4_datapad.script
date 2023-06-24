@@ -1,0 +1,245 @@
+//chrissstrahl - 2022.04.17 - handling for menu coop_datapad with MOM 4
+
+//MENU OPEN/CLOSE/HOVER EXIT
+void coop_datapad_open();
+void coop_datapad_hide();
+void coop_datapad_hexit();
+
+//OPEN/CLOSE/HOVEREXIT
+void coop_datapad_open()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"exec cfg/maps/assi_attack/dpFed.cfg");
+
+	ePlayer.hudprint("-open#\n");
+}
+void coop_datapad_hide()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-hide#\n");
+}
+void coop_datapad_hexit()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader weapons/empty");
+}
+
+
+
+//BUTTON 1
+void coop_datapad_1()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-1-\n");
+}
+void coop_datapad_1_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/coopcode.tga");
+}
+//BUTTON 2
+void coop_datapad_2()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-2-\n");
+}
+void coop_datapad_2_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/fly.tga");
+}
+//BUTTON 3
+void coop_datapad_3()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-3-\n");
+}
+void coop_datapad_3_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/foggysky.tga");
+}
+//BUTTON 4
+void coop_datapad_4()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-4-\n");
+}
+void coop_datapad_4_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/frozen.tga");
+}
+//BUTTON 5
+void coop_datapad_5()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-5-\n");
+}
+void coop_datapad_5_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/gfxcards.tga");
+}
+//BUTTON 6
+void coop_datapad_6()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-6-\n");
+}
+void coop_datapad_6_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/makeitsnow.tga");
+}
+//BUTTON 7
+void coop_datapad_7()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-7-\n");
+}
+void coop_datapad_7_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/nutcracker.tga");
+}
+//BUTTON 8
+void coop_datapad_8()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-8-\n");
+}
+void coop_datapad_8_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/omega-borg-carrier.tga");
+}
+//BUTTON 9
+void coop_datapad_9()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-9-\n");
+}
+void coop_datapad_9_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/redsky.tga");
+}
+//BUTTON 10
+void coop_datapad_10()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-10-\n");
+}
+void coop_datapad_10_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/santa.tga");
+}
+//BUTTON 11
+void coop_datapad_11()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-11-\n");
+}
+void coop_datapad_11_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/spookie.tga");
+}
+//BUTTON 12
+void coop_datapad_12()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-12-\n");
+}
+void coop_datapad_12_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/stargate-special-forces.tga");
+}
+//BUTTON 13
+void coop_datapad_13()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-13-\n");
+}
+void coop_datapad_13_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/swan.tga");
+}
+//BUTTON 14
+void coop_datapad_14()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-14-\n");
+}
+void coop_datapad_14_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/swan2.tga");
+}
+

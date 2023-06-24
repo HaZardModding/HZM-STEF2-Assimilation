@@ -1,0 +1,116 @@
+borg tactical mission
+where federation plays in ego perspective and borg play in tactical top view,
+building drones, which spawn in certain predefined areas´
+
+borg can then build drones and repair forcefiels and stuff like that I guess
+the basic idea is a player vs player aproach
+
+The federation side has to find and eliminate the borg while the borg have to assimilate the ship
+
+start mostly unassimilated except for a single room chosen at random and assimilate out from there. the feds have no sesnors to know where the borg are and so have to go searching for them giving the borg time to expand and subvert federation defences to their side by assimilating them?
+the borg have to assimilate certain key areas to win and the federation have to kill the borg queen?
+
+the borg it's more a RTS managment thing, assimilate power nodes to activate more forcefields at a time, assimilate computer nodes to increase processing power to make defenses/drones respond more quickly to commands, assimilate a transporter room to be able to beam reinforcements to a section etc. 
+
+the federation are playing a more FPS shooter trying to kill the drones or destroy assimilated tech to remove the borg advantages. but have to scout the ship to find them and hope they don't get killed/assimilated.
+
+in canon the borg have autonomous regeneration sequensers. given time borg tech rebuilds itself.
+
+so i'd say priority one is destroy the tech so it has to rebuild itself, hobble the borg so you can reach and kill the queen
+
+i suggested assimilating data node to increase responce time, these could ALSO decrease system regeneration time
+
+perhaps you could have a limited number of fed crew and the borg gain drones by assimilation. certain rooms could act as crew safe areas which if assimilated tick down the fed crew count and provide drones over time
+
+I was thinking for the beginning have te topdown one a location has been selected as base
+
+unless the borg commander is essentially FPS but in no target/spectator mode running around and interacting with the areas using your radial menu to select orders?
+
+Assimilate/ Defend/ Repair/ Destroy
+then the NPC drones follow those commands
+
+Maybe even have it so that a borg spawns and needs to assimilate npc crew and with 5 borg you can spawn a base and deploy force fields to keep fed out, they need to research hacking and i-mod
+
+maybe i make it as you suggested the queen able to move freely and do stuff with the mom
+
+possibly make it a mix of both? she can see the map from above but select a room to spawn in and interact with stuff at will
+
+so, a borg player spawns and then has areas where they can esablish a hive ( assimilate a console which becomes a powernode)
+2 drones are spawned, if they are killed the borg will have to start over else where or at the same spot
+then they need to decide if they want to reroute power to force filed up the room or reroute power to alvoves for more drones
+- drones can assimilate or kill players
+- forecdields are defensive and tale long to hack
+so many good ideas, I will see how much I can technically manage to build in quickly
+there can allways be a update or version 2
+first there needs to be a proof of concept
+so we can get a idea of the technical and game mechanical issues
+
+
+I was wondering if we could have a 2 tier drone system.
+so like in FC you see drones partially assimilated, so ripped fed uniform but with basic implants in increase functionality. in EF2 the implants are spawned over a drones character model, could these same implant models be made to span over the dead U.S.S. Dallas crew character models?
+if so this would give you stage 1 drones- assimilated federation crew. Easy to get hold of but slower work speed and low health so easier to kill.
+Then if you assimilate a room and designate it a "drone processing room" those T1 drones could be fully upgraded to a T2 full drone model: gives them a bonus to work speed/health/gives them adaptive shields, etc.
+Your T2 drones would be limited and take time to convert from T1 drones so they'd be a more valuable resource. that you need to conserve and balance how you use them.
+
+
+to counter the Borg's growing numbers and adaptability perhaps the federation players could have radial ability menu's too?
+set traps/ order a security team to a certain location a guard it/ destroy assimilated system/ erect a temporary forcefield.
+The fed should also have multiple entry points to the map so the Borg can't just rush the spawn and trap them with forcefields. 
+Add a few jeffereis tube hatches/turbolift shafts that transport the player to/from an armoury have a few NPCs defending these access areas so the borg can't easily rush them.
+the armoury itself would allow players to re-modulate their weapons so they're effective against the borg again BUT it requires returning to the armoury to do so. this balances the borg invulnerability by providing a work around
+the armoury could also have an over-view map that updates to show borg locations if you "report assimilated section" using a radial menu when in that area
+
+
+Just an idea for how you could make the queens control overlay look/work
+Green boxes denote a section, a green background in a box marks it as assimilated.
+Clicking on forcefields (yellow circles) would switch them on/off
+Red circles are for assigning drones. different size rooms have more/less circles so you can assign different numbers of drones to them.
+To assign drones select drone type > drone assignment > then select the red circle in the room you wish to assign them. 
+To cancel that assignment you click the filled circle, the drone is added back to the "available drones" counter and you loose the bonuses of the assigned drone.
+(if you select re-purpose it gives another set of selection options to create something useful for the Borg in that room i.e.
+* Alcoves (regenerate/add more T1 drones)
+* Drone processing (convert T1 drones to T2 drones)
+* Adaptive matrix (Strengthen forcefields connecting to that location)
+* Secondary distribution node (increase drone reaction speed, abilities, repair rate for damaged systems in connected rooms) )
+
+
+
+-- having one biger somewhat more obvious control node for each asismilated section would be useful, lets the fed players knwo what to shoot at/ blow up with charges
+- borg have modules they place on assimilating things - using modules would also allow to limit the assimilation capabilities
+- security teams that a player can deploy is a good idea
+- maybe the federation can capture beam in points to beam in crew and equipment which will get destroyed if the location is assimilated
+- re modulating would be a option, also researching the i-mod and the borg placing jamming-nodes that disable i-mods
+- updated tactical map in armory or base is a nice idea but way to complex for now
+
+
+
+I mentioned it to my friends as well, see if they get any extra ideas
+so if you would find my summary any easier to deal with:
+a first contact style scenario, the borg are attempting to assimilate a ship, to do so they must assimilate and keep functional 3 key systems. the federation must find and kill the borg queen.
+
+So 2 teams, 1/2 players act as the queen and play in a top down view like an RTS game issuing orders for drones to follow out.
+
+the other team is more numerous and has players as the federation crew in FPS mode trying to find the borg incursion and destory them.
+
+the federation have no sensors to locate the borg and so have to scout out and locate them as the borg will start in a random location but the borg queen can see the whole map from the start and start planing their strategy from the get go.
+various sub systems can be assimilated which give the borg greater abilities as they start off very under whelming, like a handful of drones and the queen. they establish a beachhead and the queen syncs with the internal systems blinding the federation sensors and using them for herself.
+
+the queen can control forcefields to keep federation players our of certain areas/corridors so they have to find alternative routes.
+
+minor systems that can be assimilated are, 
+
+*power nodes (increase the number of forcefields that can be activated at any given time)
+*data nodes (dereases the processing time to reassing drones/activate/deactivate a forcefield and increases the repair time of damaged/destroyed assimilated systems)
+*transporter (allows you to beam drones to a new location)
+*forcefield generators (allows you to create a forcefield at the junction)
+*crew hubs (holds federation crew who were trapped by the borg incursion, decreases fed team respawns/ increases drone numbers)
+
+Key systems to assimilate: Engineering, Deflector control, main computer core.
+
+once an area is assimilated then it remains so... permanently. the federation players can disable the borg systems there temporarily by use of demolition charges. Assimilated systems have autonomous regeneration sequencers that repair damaged borg tech over time. 
+
+if the borg have assimilated all three key areas (engineering, deflector control, main computer core) BUT the federation players have managed to destroy one or all of those systems then the borg have not won and the feds still have time to try and kill the queen.
+
+ if the 3 key systems are assimilated and they so not require repairs then the borg have gained full control of the vessel and their victory is assured.
+
+if the queen is killed then the drones have no controlling influence and are easily routed by the federation players and victory is theirs.

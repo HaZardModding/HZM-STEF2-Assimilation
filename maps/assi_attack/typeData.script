@@ -1,0 +1,28 @@
+string typeData_getTypeOf(entity eObject);
+
+string typeData_getTypeOf(entity eObject)
+{
+	if(!doesEntityExist(eObject)){ return ""; }
+	string sModel;
+	string sClass;
+	string sTargetname;
+	sModel = eObject.getModelName();
+	sClass = eObject.getSubclassName();
+	sTargetname = eObject.getRawTargetname();
+
+	//coop_returnIntFind
+	if(sClass == "Actor"){
+		if(getIntStringFind(sModel,"borg_drone")){
+			return "drone";
+		}
+	}
+	if(sClass == "ScriptSlave"){
+		if(getIntStringFind(getStringToLower(sTargetname),"ff") == 0){
+			return "forcefield";
+		}
+	}
+	if(sClass == "Object"){
+		if(sModel == ""){ return ""; }
+	}
+	return ""+getStringToLower(sClass);
+}

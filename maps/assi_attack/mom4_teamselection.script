@@ -1,0 +1,94 @@
+//chrissstrahl - 2022.04.18 - handling for menu coop_teamselect with MOM 4
+
+//MENU OPEN/CLOSE/HOVER EXIT
+void coop_teamselect_open();
+void coop_teamselect_hide();
+void coop_teamselect_hexit();
+
+//OPEN/CLOSE/HOVEREXIT
+void coop_teamselect_open()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"exec cfg/maps/assi_attack/ui_tsAssi.cfg");
+
+	ePlayer.hudprint("-open#\n");
+}
+void coop_teamselect_hide()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-hide#\n");
+}
+void coop_teamselect_hexit()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader weapons/empty");
+}
+
+
+
+//BUTTON 1
+void coop_teamselect_1()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("- BORG -\n");
+}
+void coop_teamselect_1_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader sysimg/hud/mission_analysis/mission_analysis_logo.tga");
+}
+//BUTTON 2
+void coop_teamselect_2()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-2-\n");
+}
+void coop_teamselect_2_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader sysimg/headshots/dm_borg_male.tga");
+}
+//BUTTON 3
+void coop_teamselect_3()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-3-\n");
+}
+void coop_teamselect_3_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/foggysky.tga");
+}
+//BUTTON 4
+void coop_teamselect_4()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	ePlayer.hudprint("-4-\n");
+}
+void coop_teamselect_4_h()
+{
+	entity ePlayer;
+	ePlayer = getCurrentEntity();
+	if(!doesEntityExist(ePlayer)){ return; }
+	sendClientCommand(ePlayer,"globalwidgetcommand coopDpImg shader textures/coop_icestation/secret/frozen.tga");
+}

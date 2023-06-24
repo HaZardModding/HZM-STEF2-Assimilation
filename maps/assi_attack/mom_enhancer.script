@@ -1,0 +1,468 @@
+string string_patternEnhancerModel;
+string string_patternEnhancerSprite;
+
+void enhancer_setup();
+void enhancer_beamActivate(entity e);
+void enhancer_beamActivateDelayed(entity e);
+void enhancer_spritify(string sTargetname, float fStart, float fMax,float fTime);
+void enhancer_checkAreaActivate(entity eModel);
+//void enhancer_Area();
+void enhancer_AreaPlayerUsed();
+void enhancer_pickup();
+void enhancer_attach(entity ePlayer);
+void enhancer_reattach(entity ePlayer);
+void enhancer_position();
+void enhancer_detectPlayerInside(entity eTrigger);
+void enhancer_enableArea(entity eTrigger);
+
+void enhancer_setup()
+{
+	string_patternEnhancerModel		= "models/coop_bugs/p1.tik";
+	string_patternEnhancerSprite	= "coop_peBlinking.spr";
+	
+	float fMax;
+	float fStart;
+	float fTime;
+
+	fStart = 0;		//start with pattern number
+	fMax = 4;		//maximum of pattern enhancers with that targetname
+	fTime = 1;		//how long the player needs to press use to place a pattern enhancer
+	thread enhancer_spritify("patternEnhancerAlpha",fStart,fMax,fTime);
+	thread enhancer_spritify("patternEnhancerBeta",fStart,fMax,fTime);
+}
+
+void enhancer_enableArea(entity eTrigger)
+{
+	eTrigger.triggerable();
+	thread enhancer_detectPlayerInside(eTrigger);
+}
+
+void enhancer_spritify(string sTargetname, float fStart, float fMax,float fTime)
+{
+	float fCurrent;
+	vector vOriginDefault;
+	vector vOrigin;
+	vector vBboxMins;
+	vector vBboxMaxs;
+	entity e;
+	entity ePuzzle;
+	float fActivated;
+
+	for(fCurrent=fStart;fCurrent<fMax;fCurrent++){
+		e = getEntity(sTargetname+""+fCurrent);
+		//if uservar10 is set to activated, do not spritify it because it is suppose to be active
+		if(doesEntityExist(e)){
+			if(e.getStringVar("uservar10") == "activated"){
+				fActivated++;
+				e.anim("blue");
+			}
+		//not active, allow activation
+			else{
+				e.hide();
+				e.notsolid();
+				e.setFloatVar("maxEnhancers",fMax);
+				
+				vBboxMins = e.getMins();
+				vBboxMaxs = e.getMaxs();
+				
+				vOriginDefault = e.getOrigin();
+				
+				entity eTarget;
+				eTarget = e;
+				
+				//spawn SPRITE
+				vOrigin = vOriginDefault;
+				vOrigin_z = (vOrigin_z + (vectorGetZ(e.getMaxs()) * 0.4));			
+				e = spawn("script_model","model",string_patternEnhancerSprite,"origin",""+vOrigin,"scale","0.3");	
+				globalCoop_main_waitAFrame();
+				e.setSize(vBboxMins,vBboxMaxs);
+				e.notsolid();
+				e.target(eTarget.getRawTargetName());
+				e.targetname(eTarget.getRawTargetName()+"_sprite");
+				
+				//spawn PUZZLE
+				vOrigin = vOriginDefault;
+				vOrigin_z = (vOrigin_z + vectorGetZ(e.getMaxs()));	
+				ePuzzle = spawn("puzzle_object","origin",""+vOrigin);
+				globalCoop_main_waitAFrame();
+				ePuzzle.puzzleobject_solvedthread("enhancer_puzzlePlace");
+				ePuzzle.target(eTarget.getRawTargetName()+"_sprite");
+				ePuzzle.puzzleobject_timeToUse(fTime);
+				//ePuzzle.puzzleobject_timerHudName("coop_constructing");			
+			}
+		}else{
+			print("setupPatternEnhancer - $"+sTargetname+""+fCurrent+" - NOT FOUND\n");
+		}
+	}
+	
+	//set animation and hide blue beams if not all enhancers are active
+	e = getEntity(sTargetname+"_beam");
+	while(doesEntityExist(e)){
+		e.hide();//hide beam
+		if(fActivated >= fMax){
+			thread enhancer_beamActivateDelayed(e);
+		}
+		e = getNextEntity(e);
+	}
+	//enhancer area is active, enable trigger
+	if(fActivated >= fMax){
+		entity eTrigger;
+		eTrigger = getEntity(sTargetname);
+		enhancer_enableArea(eTrigger);
+	}
+}
+
+//have a delayed activation on map start here because the beams start at a length that might be different from the lengt the mapper selected, makes it look odd
+void enhancer_beamActivateDelayed(entity e)
+{
+	wait(4);
+	enhancer_beamActivate(e);
+}
+void enhancer_beamActivate(entity e)
+{
+	if(doesEntityExist(e)){
+		e.show();
+		e.anim(e.getStringVar("uservar1"));//set animation
+	}
+}
+
+//if a pattern enhancer is placed by using a puzzle
+void enhancer_puzzlePlace()
+{
+	entity e;
+	entity eModel;
+	entity eSprite;
+	e = getCurrentEntity();
+	if(doesEntityExist(e)){
+		eSprite =  e.getTargetEntity();
+		if(doesEntityExist(eSprite)){
+			eSprite.remove();
+			eModel =  eSprite.getTargetEntity();
+		}		
+		if(doesEntityExist(eModel)){
+			eModel.show();
+		}
+		e.remove();
+	}
+	thread enhancer_checkAreaActivate(eModel);
+}
+
+//check if a area should be activated
+void enhancer_checkAreaActivate(entity eModel)
+{
+	float fMax;
+	float fActiveEnhancers;
+	entity eAreaTrigger;
+	eAreaTrigger = getEntity(eModel.getStringVar("uservar1"));
+	fActiveEnhancers = eAreaTrigger.getFloatVar("activeEnhancers");
+	fMax = eModel.getFloatVar("maxEnhancers");
+	fActiveEnhancers++;
+	eAreaTrigger.setFloatVar("activeEnhancers",fActiveEnhancers);
+	
+	if(fActiveEnhancers == fMax){
+		wait(0.1);
+		entity pEhc;
+		float fCurrent;
+		for(fCurrent=0;fCurrent<fMax;fCurrent++){
+			pEhc = getEntity(eModel.getStringVar("uservar1")+""+fCurrent);
+			pEhc.anim("blue");
+		}
+		
+		wait(0.2);
+		entity eBeam;
+		eBeam = getEntity(eModel.getStringVar("uservar1")+"_beam");
+		
+		//show blue beams
+		while(doesEntityExist(eBeam)){
+			thread enhancer_beamActivate(eBeam);
+			eBeam = getNextEntity(eBeam);
+			wait(0.2);
+		}
+		
+		//enable trigger area
+		enhancer_enableArea(eAreaTrigger);
+	}
+}
+
+//if a pattern enhancer is used
+void enhancer_used()
+{
+	entity e;
+	entity eTarget;
+	e = getCurrentEntity();
+	if(doesEntityExist(e)){
+		eTarget = e.getTargetEntity();
+		if(doesEntityExist(eTarget)){
+			eTarget.show();
+			e.remove();
+		}
+	}
+}
+
+void enhancer_AreaPlayerUsed()
+{
+	entity eTrigger,ePlayer;
+	eTrigger = getCurrentEntity();
+	if(doesEntityExist(eTrigger))
+	{
+		ePlayer = eTrigger.getLastActivatingEntity();
+		if(doesEntityExist(ePlayer))
+		{
+			if("peTrigger_"+ePlayer.getRawTargetname() == eTrigger.getRawTargetname())
+			{
+				string sTriggerName;
+				sTriggerName	= ePlayer.getStringVar("enhancherAreaTriggerName");
+				sTriggerName	= sTriggerName+"Mom";
+				eTrigger		= getEntity(sTriggerName);
+				if(doesEntityExist(eTrigger))
+				{
+					ePlayer.trigger("$"+sTriggerName);
+				}
+			}
+		}
+	}
+}
+
+void enhancer_pickup()
+{
+	entity eTrigger,ePlayer;
+	eTrigger = getCurrentEntity();
+	
+	if(doesEntityExist(eTrigger))
+	{
+		ePlayer = eTrigger.getLastActivatingEntity();
+		if(doesEntityExist(ePlayer))
+		{
+			thread globalCoop_huds_Add(ePlayer,"coopbugs_enhancer2x");
+			ePlayer.setFloatVar("enhancersAttached",2);
+			enhancer_attach(ePlayer);
+		}
+	}
+}
+
+
+void enhancer_attach(entity ePlayer)
+{
+	globalCoop_main_waitAFrame();
+	
+	if(doesEntityExist(ePlayer))
+	{
+		entity ePe;
+		string sTargetname;
+		sTargetname	= "patternEnhancer_"+ePlayer.getRawTargetname();
+		ePe = getEntity(sTargetname);
+		globalCoop_level_remove(ePe);
+		globalCoop_main_waitAFrame();
+		globalCoop_main_waitAFrame();
+		ePlayer.attachmodel(string_patternEnhancerModel,"tag_head",0.8,sTargetname,0,-1,-1,-1,-1,'-16 0 0','0 60 0');
+		globalCoop_main_waitAFrame();
+		ePe = getEntity(sTargetname);
+		if(doesEntityExist(ePe))
+		{
+			ePe.anim("off");
+		}
+	}
+}
+
+void enhancer_reattach(entity ePlayer)
+{
+	if(doesEntityExist(ePlayer))
+	{
+		string sTargetname;
+		sTargetname	= "patternEnhancer_"+ePlayer.getRawTargetname();
+		if(doesEntityExist(getEntity(sTargetname)))
+		{
+			enhancer_attach(ePlayer);
+		}
+	}
+}
+
+void enhancer_position()
+//position the pe where the sprite was located
+{
+	vector	vOrigin;
+	entity	eTrigger,ePlayer,eEnhancer,eEnhancerBeam,eAreaTrigger;
+	float	fStartEnhancer,fEnhancersActive,fEnhancerAreaNumber;
+	string	sTargetname;
+	
+	eTrigger = getCurrentEntity();
+	
+	if(doesEntityExist(eTrigger))
+	{
+		eTrigger.nouse();
+		
+		sTargetname			= eTrigger.getRawTargetname();
+		fStartEnhancer		= eTrigger.getFloatVar("uservar1");
+		fEnhancerAreaNumber	= eTrigger.getFloatVar("uservar2");
+		
+		ePlayer = eTrigger.getLastActivatingEntity();
+		if(doesEntityExist(ePlayer))
+		{
+			eEnhancer = getEntity("patternEnhancer_"+ePlayer.getRawTargetname());
+			if(doesEntityExist(eEnhancer))
+			{
+				vOrigin		= eTrigger.getOrigin();
+				vOrigin_z	-= 25;
+				float fEnhanchers;
+				fEnhanchers = ePlayer.getFloatVar("enhancersAttached");
+				fEnhanchers--;
+				ePlayer.setFloatVar("enhancersAttached",fEnhanchers);
+				if(fEnhanchers < 1)
+				{
+					eEnhancer.remove();				
+					thread globalCoop_huds_Remove(ePlayer,"coopbugs_enhancer");
+				}
+				else{
+					globalCoop_huds_Remove(ePlayer,"coopbugs_enhancer2x");
+					thread globalCoop_huds_Add(ePlayer,"coopbugs_enhancer");
+				}
+				
+				//remove use symbol and missionobjective marker
+				entity eUse;
+				eUse = getEntity(sTargetname+"use");
+				eUse.missionobjective(0);	
+				eUse.remove();
+				
+				//remove sprite
+				eTrigger.remove();
+				globalCoop_main_waitAFrame();
+							
+				eTrigger = spawn("script_model","model",string_patternEnhancerModel,"origin",""+vOrigin,"notsolid","1");
+				globalCoop_main_waitAFrame();
+				eTrigger.scale(1);
+				eTrigger.targetname(sTargetname);
+				
+			//activate area trigger if 4 enhancers are in  place
+				fEnhancersActive = $world.getFloatVar("coopBugs_patternEnhancerSeries"+fStartEnhancer);
+				fEnhancersActive++;
+				$world.setFloatVar("coopBugs_patternEnhancerSeries"+fStartEnhancer,fEnhancersActive);
+				
+			//hit limit when start enhancer +4 is even with the current enhancer
+				if(fEnhancersActive == 4)
+				{
+					float	fActivate;
+					entity	eEnhancher;
+					for(fActivate=fStartEnhancer;fActivate<(fStartEnhancer + 4);fActivate++)
+					{
+						eEnhancher		= getEntity("patternenhancer"+fActivate);
+						eEnhancerBeam	= getEntity("patternenhancer"+fActivate+"beam");
+						if(doesEntityExist(eEnhancher))
+						{
+							forcemusic("success");
+							eEnhancher.anim("blue");
+							if(doesEntityExist(eEnhancerBeam))
+							{
+								eEnhancerBeam.show();
+							}
+						}
+						else
+						{
+							centerprint("missing: patternenhancer"+fActivate+"\n");
+						}
+					}
+				
+					eAreaTrigger = getEntity("patternenhancer"+fEnhancerAreaNumber+"Trigger");
+				//activate area trigger
+					if(doesEntityExist(eAreaTrigger))
+					{
+						//thread objective_buildPeFieldComplete();
+						eAreaTrigger.triggerable();
+						eAreaTrigger.setStringVar("uservar2","active");
+					//remove items from the old beam in area
+						globalCoop_level_remove($requested_health);
+						globalCoop_level_remove($requested_plasma);
+						globalCoop_level_remove($requested_patternenhancer);
+					}
+					else
+					{
+						centerPrint("missing area trigger");
+					}
+				}
+				
+				//for testing //thread enhancer_attach($player1);
+
+			//make model solid as soon as no player is inside it anymore
+				while(doesEntityExist(eTrigger))
+				{
+					ePlayer = globalCoop_return_playerClosestPreferActive(eTrigger);
+					if(	ePlayer.getRawTargetname() == "world" ||
+						ePlayer.isWithinDistanceOf(eTrigger,80) != 1 )
+					{
+						eTrigger.solid();
+						return;
+					}
+					globalCoop_main_waitAFrame();
+				}
+			}
+			else
+			{
+				if(cvar_bool_multiplayer)
+				{
+					if(	ePlayer.getLanguage() == "Deu" ){
+						ePlayer.hudPrint("^5INFO:^8 Sie brauchen einen Muster-Verst...!\n^5INFO:^8 Fordern Sie einen an.\n");
+					}else{
+						ePlayer.hudPrint("^5INFO:^8 You have no Pattern-Enhancer with you!\n^5INFO:^8 You need to request a one.\n");
+					}
+				}
+				else
+				{
+					if(	ePlayer.getLanguage() == "Deu" ){
+						centerPrint("^5INFO:^8 Sie brauchen einen Muster-Verst...!\n^5INFO:^8 Fordern Sie einen an.\n");
+					}else{
+						centerPrint("^5INFO:^8 You have no Pattern-Enhancer with you!\nYou need to request a one.\n");
+					}
+				}
+				wait(1);
+			}
+		}
+		globalCoop_main_waitAFrame();
+		thread globalCoop_level_onUse(eTrigger,"enhancer_position");		
+	}
+	else
+	{
+		centerprint("can not be called from console");
+	}
+}
+
+void enhancer_handlePlayerInside(entity eTrigger,entity ePlayer)
+{
+	if(doesEntityExist(ePlayer) != 1 || ePlayer.getHealth() <= 0){
+		return;
+	}	
+	
+	ePlayer.setFloatVar("playerInsideEnhancerArea",1);
+	globalCoop_huds_Add(ePlayer,"coop_pEArea");
+	float fCheck = 1;
+	while(fCheck){
+		if(!doesEntityExist(ePlayer)){
+			return;
+		}
+		
+		if(ePlayer.getHealth() <= 0 || doesEntityExist(eTrigger) != 1 || globalCoop_check_isEntityInsideOfEntity(ePlayer,eTrigger,0) != 1){
+			fCheck = 0;
+		}
+		globalCoop_main_waitAFrame();
+	}
+	if(doesEntityExist(ePlayer)){
+		ePlayer.setFloatVar("playerInsideEnhancerArea",0);
+		globalCoop_huds_Remove(ePlayer,"coop_pEArea");
+	}
+}
+
+
+void enhancer_detectPlayerInside(entity eTrigger)
+{
+	float fCurrent;
+	entity ePlayer;
+	while(doesEntityExist(eTrigger)){
+		for(fCurrent=0;fCurrent<cvar_integer_sv_maxClients;fCurrent++){
+			ePlayer = getEntity("*"+fCurrent);
+			if(doesEntityExist(ePlayer)){
+				if(ePlayer.getFloatVar("playerInsideEnhancerArea") != 1 && globalCoop_check_isEntityInsideOfEntity(ePlayer,eTrigger,0)){
+					thread enhancer_handlePlayerInside(eTrigger,ePlayer);
+				}
+			}
+		}
+		wait(0.1);
+	}
+}

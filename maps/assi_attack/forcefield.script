@@ -1,0 +1,10 @@
+//chrissstrahl - 23.04.2022 - manage forcefields
+void forcefield_setup();
+
+
+void forcefield_setup()
+{
+	//make forcefields solid
+	$ffAlpha1.solid();
+	$ffAlpha2.solid();	
+}
